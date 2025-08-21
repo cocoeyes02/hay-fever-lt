@@ -79,6 +79,24 @@
     </header>
 
     <main>
+        <section class="mb-12">
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h3 class="text-2xl md:text-3xl font-bold text-center mb-6 text-[#073B4C]">もはや国民病！？花粉症、ガチで増えてます</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="text-gray-600 mb-4">「昔はこんなに花粉症の人いなかったのに…」って思いませんか？それ、正解です。</p>
+                        <p class="text-lg font-bold text-gray-800">約20年で、花粉症の人は<strong class="text-[#FF6B6B] text-2xl">2倍以上</strong>に増加！</p>
+                        <p class="text-gray-600 mt-2">今や<strong class="text-[#118AB2]">2人に1人</strong>に迫る勢い。もう他人事じゃないんです。</p>
+                    </div>
+                    <div>
+                        <div class="line-chart-container">
+                            <canvas id="prevalenceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="text-center bg-white rounded-2xl shadow-lg p-8 mb-12">
             <h3 class="text-2xl font-bold text-[#073B4C] mb-2">いきなり結論！</h3>
             <p class="text-5xl md:text-7xl font-extrabold text-[#118AB2] mb-4">勝負の<span class="text-8xl md:text-9xl">9</span>割は<br>シーズン前の準備で決まる！</p>
@@ -255,7 +273,7 @@
                         </ul>
                     </div>
                     <div class="bg-blue-50 p-6 rounded-2xl">
-                        <h4 class="text-xl font-bold text-center mb-4 text-[#118AB2]">� 最重症の人の最終兵器 → ゾレア®注射</h4>
+                        <h4 class="text-xl font-bold text-center mb-4 text-[#118AB2]">💉 最重症の人の最終兵器 → ゾレア®注射</h4>
                         <div class="text-center mb-4">
                             <p class="text-lg">💣<span class="text-sm">(IgE抗体)</span> + 🏠<span class="text-sm">(細胞)</span> = 💥<span class="text-sm">(大爆発)</span></p>
                             <p class="text-2xl my-1">▼</p>
@@ -392,6 +410,45 @@
             }
         }
     };
+
+    const prevalenceCtx = document.getElementById('prevalenceChart').getContext('2d');
+    new Chart(prevalenceCtx, {
+        type: 'line',
+        data: {
+            labels: ['1998年', '2008年', '2019年'],
+            datasets: [{
+                label: '花粉症の有病率 (%)',
+                data: [19.6, 29.8, 42.5],
+                borderColor: '#FF6B6B',
+                backgroundColor: 'rgba(255, 107, 107, 0.2)',
+                fill: true,
+                tension: 0.1,
+                pointBackgroundColor: '#FF6B6B',
+                pointRadius: 5,
+            }]
+        },
+        options: {
+            ...commonChartOptions,
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    min: 15,
+                    max: 45,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%'
+                        }
+                    }
+                }
+            },
+            plugins: {
+                ...commonChartOptions.plugins,
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
 
     const gearCtx = document.getElementById('gearChart').getContext('2d');
     new Chart(gearCtx, {
